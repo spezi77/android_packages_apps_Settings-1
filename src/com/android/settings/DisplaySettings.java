@@ -17,6 +17,7 @@
 package com.android.settings;
 
 import static android.provider.Settings.System.SCREEN_OFF_TIMEOUT;
+import static android.provider.Settings.System.SCREEN_ANIMATION_STYLE;
 
 import android.app.ActivityManagerNative;
 import android.app.Dialog;
@@ -75,6 +76,8 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private static final String KEY_NOTIFICATION_PULSE = "notification_pulse";
     private static final String KEY_BATTERY_LIGHT = "battery_light";
     private static final String KEY_WAKE_WHEN_PLUGGED_OR_UNPLUGGED = "wake_when_plugged_or_unplugged";
+    private static final String KEY_SCREEN_ANIMATION_OFF = "screen_off_animation";
+    private static final String KEY_SCREEN_ANIMATION_STYLE = "screen_animation_style";
     private static final String KEY_ANIMATION_OPTIONS = "category_animation_options";
     private static final String KEY_POWER_CRT_MODE = "system_power_crt_mode";
     private static final String KEY_SCREEN_COLOR_SETTINGS = "screencolor_settings";
@@ -84,6 +87,8 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
     private CheckBoxPreference mAccelerometer;
     private FontDialogPreference mFontSizePref;
     private CheckBoxPreference mWakeWhenPluggedOrUnplugged;
+    private CheckBoxPreference mScreenOffAnimation;
+    private ListPreference mScreenAnimationStylePreference;
 
     private PreferenceScreen mNotificationPulse;
     private PreferenceScreen mBatteryPulse;
@@ -355,6 +360,24 @@ public class DisplaySettings extends SettingsPreferenceFragment implements
             }
         }
         screenTimeoutPreference.setEnabled(revisedEntries.size() > 0);
+    }
+    
+    private void updateScreenAnimationStylePreferenceDescription(int currentAnimation) {
+        ListPreference preference = mScreenAnimationStylePreference;
+        String summary;
+        if (currentAnimation < 0) {
+            // Unsupported value
+            summary = "";
+        } else {
+            final CharSequence[] entries = preference.getEntries();
+            final CharSequence[] values = preference.getEntryValues();
+            if (entries == null || entries.length == 0) {
+                summary = "";
+            } else {
+                summary = entries[currentAnimation].toString();
+            }
+        }
+        preference.setSummary(summary);
     }
 
     @Override
