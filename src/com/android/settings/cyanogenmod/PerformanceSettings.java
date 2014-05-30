@@ -149,7 +149,7 @@ public class PerformanceSettings extends SettingsPreferenceFragment implements
             setCurrentValue();
             ContentResolver resolver = getActivity().getContentResolver();
             resolver.registerContentObserver(Settings.Secure.getUriFor(
-                    Settings.Secure.PERFORMANCE_PROFILE), false, mPerformanceProfileObserver);
+                    Settings.PERFORMANCE_PROFILE), false, mPerformanceProfileObserver);
         }
     }
 
